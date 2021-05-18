@@ -78,9 +78,10 @@ void t(){
     Formato de saída: task <id> onde <id> é o identificador da tarefa criada.
     Nota: a descrição pode conter carateres brancos.
     Erros:
-		too many tasks no caso de a tarefa, se criada, exceder o limite máximo de tarefas permitidas pelo sistema.
-		duplicate description no caso de já existir uma tarefa com o mesmo nome.
-		invalid duration no caso de a duração não ser um número positivo.
+	too many tasks no caso de a tarefa, se criada, exceder o limite máximo 
+	de tarefas permitidas pelo sistema.
+	duplicate description no caso de já existir uma tarefa com o mesmo nome.
+	invalid duration no caso de a duração não ser um número positivo.
 */
 	int d, i, var = 0;
 	char des[MAX_STR_DES];
@@ -114,9 +115,12 @@ void l(){
 	/*Lista as tarefas:
 
     Formato de entrada: l [<id> <id> ...]
-    Formato de saída: <id> <actividade> #<duração> <descrição> por cada tarefa, uma por linha.
-        Se o comando for invocado sem argumentos, todas as tarefas são listadas por ordem alfabética da descrição.
-        Se o comando for invocado com uma lista de <id>s, as tarefas devem ser listadas pela ordem dos respetivos <id>s.
+    Formato de saída: <id> <actividade> #<duração> <descrição> 
+    por cada tarefa, uma por linha.
+        Se o comando for invocado sem argumentos, todas as tarefas
+	são listadas por ordem alfabética da descrição.
+        Se o comando for invocado com uma lista de <id>s, as tarefas 
+	devem ser listadas pela ordem dos respetivos <id>s.
     Erros: 
     	<id>: no such task no caso de não existir a tarefa indicada.
 */
@@ -128,7 +132,8 @@ void l(){
 		while (a == ' '){
 			scanf("%d", &id);
 			if (id > index || id < 1) printf("%d: no such task\n", id);
-			else printf("%d %s #%d %s\n", cofre[id-1].id, cofre[id-1].atividade, cofre[id-1].duracaopre, cofre[id-1].descricao);
+			else printf("%d %s #%d %s\n", cofre[id-1].id, cofre[id-1].atividade, 
+				    cofre[id-1].duracaopre, cofre[id-1].descricao);
 			a = getchar();
 		}
 
@@ -137,7 +142,8 @@ void l(){
 		for (i = 0; i < index + 1; i++) cofre_ord[i] = cofre[i];
 		mergesort(cofre_ord, 0, index - 1, 0);
 		for (i = 0; i<index; i++){
-			printf("%d %s #%d %s\n", cofre_ord[i].id, cofre_ord[i].atividade, cofre_ord[i].duracaopre, cofre_ord[i].descricao);
+			printf("%d %s #%d %s\n", cofre_ord[i].id, cofre_ord[i].atividade, 
+			       cofre_ord[i].duracaopre, cofre_ord[i].descricao);
 		}
 	}
 }
@@ -168,10 +174,12 @@ void u(){
 	/*Adiciona um utilizador ou lista todos os utilizadores:
 
     Formato de entrada: u [<utilizador>]
-    Formato de saída: lista dos nomes dos utilizadores, um nome por linha, pela ordem de criação ou nada, se for criado um novo utilizador.
+    Formato de saída: lista dos nomes dos utilizadores, um nome por linha, 
+    pela ordem de criação ou nada, se for criado um novo utilizador.
     Erros:
         user already exists no caso de já existir um utilizador com esse nome.
-        too many users no caso de o novo utilizador, a ser criado, exceda o limite de utilizadores.
+        too many users no caso de o novo utilizador, a ser criado, 
+	exceda o limite de utilizadores.
 */
 	int i, a, var = 0, var2 = 0;
 	char utilizador[MAX_STR_UTI];
@@ -201,8 +209,14 @@ void m(){
 	/*Move uma tarefa de uma atvidade para outra:
 
     Formato de entrada: m <id> <utilizador> <atividade>
-    Formato de saída: duration=<gasto> slack=<slack> onde <gasto> é o tempo que a tarefa gastou desde que saiu de atividade TO DO até atingir a atividade DONE e <slack> é a diferença entre o tempo <gasto> e o tempo previsto (indicado na criação da tarefa); se a <atividade> não for DONE, nada deve ser impresso, exceto erro.
-    Nota: Uma vez iniciada uma tarefa, e registado o seu instante de início, a tarefa não pode ser reiniciada; no entanto, uma tarefa dada como concluída pode ser movida para uma atividade que não TO DO, para a resolução de problemas entretanto encontrados, por exemplo.
+    Formato de saída: duration=<gasto> slack=<slack> onde <gasto> é o tempo que a 
+    tarefa gastou desde que saiu de atividade TO DO até atingir a atividade DONE e 
+    <slack> é a diferença entre o tempo <gasto> e o tempo previsto (indicado na 
+    criação da tarefa); se a <atividade> não for DONE, nada deve ser impresso, exceto erro.
+    Nota: Uma vez iniciada uma tarefa, e registado o seu instante de início, a 
+    tarefa não pode ser reiniciada; no entanto, uma tarefa dada como concluída pode 
+    ser movida para uma atividade que não TO DO, para a resolução de problemas entretanto 
+    encontrados, por exemplo.
     Erros:
         no such task no caso de não existir nenhuma tarefa com o identificador indicado.
         task already started no caso se tentar mover a tarefa para a atividade TO DO.
@@ -227,13 +241,15 @@ void m(){
 		}
 	}
 	if (id > index || id < 1) printf("no such task\n");
-	else if  (!strcmp(atividade, TO_DO) && strcmp(cofre[id-1].atividade, TO_DO)) printf("task already started\n");
+	else if  (!strcmp(atividade, TO_DO) 
+		  && strcmp(cofre[id-1].atividade, TO_DO)) printf("task already started\n");
 	else if (var) printf("no such user\n");
 	else if (var2) printf("no such activity\n");
 	else{
 		if (!strcmp(cofre[id-1].atividade, TO_DO)) cofre[id-1].instante = instante;
 		strcpy(cofre[id-1].atividade, atividade);
-		if (!strcmp(atividade, DONE)) printf("duration=%d slack=%d\n", instante - cofre[id -1].instante, instante - cofre[id -1].instante - cofre[id -1].duracaopre);
+		if (!strcmp(atividade, DONE)) printf("duration=%d slack=%d\n", instante - cofre[id -1].instante, 
+						     instante - cofre[id -1].instante - cofre[id -1].duracaopre);
 	}
 }
 
@@ -241,7 +257,9 @@ void d(){
 	/*Lista todas as tarefas que estejam numa dada atividade:
 
     Formato de entrada: d <atividade>:
-    Formato de saída: <id> <início> <descrição> por cada tarefa que está na atividade, uma por linha, por ordem crescente de instante de início (momento em que deixam a atividade TO DO) e alfabeticamente por descrição, se duas ou mais tarefas tiverem o mesmo instante de início.
+    Formato de saída: <id> <início> <descrição> por cada tarefa que está na atividade, uma por linha, 
+    por ordem crescente de instante de início (momento em que deixam a atividade TO DO) e alfabeticamente 
+    por descrição, se duas ou mais tarefas tiverem o mesmo instante de início.
     Erros:
         no such activity no caso de não existir nenhuma atividade com esse nome.
 */
@@ -262,7 +280,8 @@ void d(){
 		mergesort(cofre_ord, 0, index - 1, 0);
 		mergesort(cofre_ord, 0, index - 1, 1);
 		for (i = 0; i < index + 1; i++){
-			if (!strcmp(cofre_ord[i].atividade, atividade)) printf("%d %d %s\n", cofre_ord[i].id, cofre_ord[i].instante, cofre_ord[i].descricao);
+			if (!strcmp(cofre_ord[i].atividade, atividade))	
+				printf("%d %d %s\n", cofre_ord[i].id, cofre_ord[i].instante, cofre_ord[i].descricao);
 		}
 	}
 }
@@ -271,7 +290,8 @@ void a(){
 	/*Adiciona uma atividade ou lista todas as atividades:
 
     Formato de entrada: a [<atividade>]
-    Formato de saída: lista de nomes de atividades por ordem de criação, uma por linha, ou nada, se for a criação de uma nova atividade (exceto erro).
+    Formato de saída: lista de nomes de atividades por ordem de criação, uma por linha, ou nada, 
+    se for a criação de uma nova atividade (exceto erro).
     Erros:
         duplicate activity no caso de já existir uma atividade com o mesmo nome.
         invalid description no caso de o nome da atividade conter letras minúsculas.
